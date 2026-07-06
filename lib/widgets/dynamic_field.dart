@@ -150,7 +150,7 @@ class _DynamicFieldState extends State<DynamicField> {
     return TextFormField(
       controller: controller,
       decoration: InputDecoration(
-        labelText: widget.field.requiredField ? '$getLabel()*' : getLabel(),
+        labelText: widget.field.requiredField ? '${getLabel()}*' : getLabel(),
       ),
       onChanged: (value) {
         widget.onChanged(widget.field.key, value);
@@ -163,7 +163,7 @@ class _DynamicFieldState extends State<DynamicField> {
       controller: controller,
       maxLines: 4,
       decoration: InputDecoration(
-        labelText: widget.field.requiredField ? '$getLabel()*' : getLabel(),
+        labelText: widget.field.requiredField ? '${getLabel()}*' : getLabel(),
       ),
       onChanged: (value) {
         widget.onChanged(widget.field.key, value);
@@ -176,7 +176,7 @@ class _DynamicFieldState extends State<DynamicField> {
       controller: controller,
       keyboardType: TextInputType.number,
       decoration: InputDecoration(
-        labelText: widget.field.requiredField ? '$getLabel()*' : getLabel(),
+        labelText: widget.field.requiredField ? '${getLabel()}*' : getLabel(),
       ),
       onChanged: (value) {
         widget.onChanged(widget.field.key, num.tryParse(value));
@@ -189,7 +189,7 @@ class _DynamicFieldState extends State<DynamicField> {
       controller: controller,
       keyboardType: TextInputType.number,
       decoration: InputDecoration(
-        labelText: widget.field.requiredField ? '$getLabel()*' : getLabel(),
+        labelText: widget.field.requiredField ? '${getLabel()}*' : getLabel(),
         prefixText: '₹ ',
       ),
       onChanged: (value) {
@@ -203,7 +203,7 @@ class _DynamicFieldState extends State<DynamicField> {
       controller: controller,
       keyboardType: TextInputType.emailAddress,
       decoration: InputDecoration(
-        labelText: widget.field.requiredField ? '$getLabel()*' : getLabel(),
+        labelText: widget.field.requiredField ? '${getLabel()}*' : getLabel(),
       ),
       onChanged: (value) {
         widget.onChanged(widget.field.key, value);
@@ -216,7 +216,7 @@ class _DynamicFieldState extends State<DynamicField> {
       controller: controller,
       keyboardType: TextInputType.phone,
       decoration: InputDecoration(
-        labelText: widget.field.requiredField ? '$getLabel()*' : getLabel(),
+        labelText: widget.field.requiredField ? '${getLabel()}*' : getLabel(),
       ),
       onChanged: (value) {
         widget.onChanged(widget.field.key, value);
@@ -239,7 +239,7 @@ class _DynamicFieldState extends State<DynamicField> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          widget.field.requiredField ? '$getLabel()*' : getLabel(),
+          widget.field.requiredField ? '${getLabel()}*' : getLabel(),
           style: const TextStyle(fontWeight: FontWeight.bold),
         ),
         ...widget.field.options.map((option) {
@@ -260,7 +260,7 @@ class _DynamicFieldState extends State<DynamicField> {
     return DropdownButtonFormField<String>(
       initialValue: widget.value?.toString(),
       decoration: InputDecoration(
-        labelText: widget.field.requiredField ? '$getLabel()*' : getLabel(),
+        labelText: widget.field.requiredField ? '${getLabel()}*' : getLabel(),
       ),
       items: widget.field.options.map((option) {
         return DropdownMenuItem(
@@ -289,7 +289,7 @@ class _DynamicFieldState extends State<DynamicField> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          widget.field.requiredField ? '$getLabel()*' : getLabel(),
+          widget.field.requiredField ? '${getLabel()}*' : getLabel(),
           style: const TextStyle(fontWeight: FontWeight.w600),
         ),
         const SizedBox(height: 8),
@@ -328,7 +328,7 @@ class _DynamicFieldState extends State<DynamicField> {
       controller: controller,
       readOnly: true,
       decoration: InputDecoration(
-        labelText: widget.field.requiredField ? '$getLabel()*' : getLabel(),
+        labelText: widget.field.requiredField ? '${getLabel()}*' : getLabel(),
         suffixIcon: const Icon(Icons.calendar_today_outlined),
       ),
       onTap: () async {
@@ -354,7 +354,7 @@ class _DynamicFieldState extends State<DynamicField> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          widget.field.requiredField ? '$getLabel()*' : getLabel(),
+          widget.field.requiredField ? '${getLabel()}*' : getLabel(),
           style: const TextStyle(fontWeight: FontWeight.w600),
         ),
         const SizedBox(height: 8),
@@ -418,15 +418,54 @@ class _DynamicFieldState extends State<DynamicField> {
   }
 
   Widget _durationField() {
-    return TextFormField(
-      controller: controller,
-      decoration: InputDecoration(
-        labelText: widget.field.requiredField ? '$getLabel()*' : getLabel(),
-        hintText: 'e.g. 2 hours',
-      ),
-      onChanged: (value) {
-        widget.onChanged(widget.field.key, value);
-      },
+    final parts = (widget.value as String?)?.split(' ') ?? [];
+    int hours = parts.isNotEmpty ? int.tryParse(parts[0]) ?? 0 : 0;
+    String unit = parts.length > 1 ? parts[1] : 'hours';
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          widget.field.requiredField ? '${getLabel()}*' : getLabel(),
+          style: const TextStyle(fontWeight: FontWeight.w600),
+        ),
+        const SizedBox(height: 10),
+        Row(
+          children: [
+            Expanded(
+              child: TextFormField(
+                initialValue: hours.toString(),
+                keyboardType: TextInputType.number,
+                decoration: const InputDecoration(
+                  labelText: 'Value',
+                  hintText: '2',
+                ),
+                onChanged: (value) {
+                  final newHours = int.tryParse(value) ?? 0;
+                  widget.onChanged(widget.field.key, '$newHours $unit');
+                },
+              ),
+            ),
+            const SizedBox(width: 12),
+            Expanded(
+              child: DropdownButtonFormField<String>(
+                value: unit,
+                decoration: const InputDecoration(labelText: 'Unit'),
+                items: const [
+                  DropdownMenuItem(value: 'hours', child: Text('Hours')),
+                  DropdownMenuItem(value: 'days', child: Text('Days')),
+                  DropdownMenuItem(value: 'weeks', child: Text('Weeks')),
+                ],
+                onChanged: (value) {
+                  if (value != null) {
+                    widget.onChanged(widget.field.key, '$hours $value');
+                  }
+                },
+              ),
+            ),
+          ],
+        ),
+      ],
     );
   }
 
@@ -441,7 +480,7 @@ class _DynamicFieldState extends State<DynamicField> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            widget.field.requiredField ? '$getLabel()*' : getLabel(),
+            widget.field.requiredField ? '${getLabel()}*' : getLabel(),
             style: const TextStyle(fontWeight: FontWeight.w600),
           ),
           const SizedBox(height: 8),
@@ -467,7 +506,7 @@ class _DynamicFieldState extends State<DynamicField> {
       controller: controller,
       keyboardType: TextInputType.url,
       decoration: InputDecoration(
-        labelText: widget.field.requiredField ? '$getLabel()*' : getLabel(),
+        labelText: widget.field.requiredField ? '${getLabel()}*' : getLabel(),
       ),
       onChanged: (value) {
         widget.onChanged(widget.field.key, value);
@@ -481,7 +520,7 @@ class _DynamicFieldState extends State<DynamicField> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          widget.field.requiredField ? '$getLabel()*' : getLabel(),
+          widget.field.requiredField ? '${getLabel()}*' : getLabel(),
           style: const TextStyle(fontWeight: FontWeight.w600),
         ),
         const SizedBox(height: 8),

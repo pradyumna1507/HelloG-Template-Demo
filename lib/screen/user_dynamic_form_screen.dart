@@ -91,54 +91,54 @@ class _UserDynamicFormScreenState extends State<UserDynamicFormScreen> {
       body: SafeArea(
         child: Column(
           children: [
-            Container(
-              margin: const EdgeInsets.fromLTRB(16, 8, 16, 12),
-              padding: const EdgeInsets.all(18),
-              decoration: BoxDecoration(
-                color: darkBlack,
-                borderRadius: BorderRadius.circular(20),
-              ),
-              child: Row(
-                children: [
-                  Container(
-                    padding: const EdgeInsets.all(12),
-                    decoration: const BoxDecoration(
-                      color: primaryYellow,
-                      shape: BoxShape.circle,
-                    ),
-                    child: const Icon(
-                      Icons.person_outline,
-                      color: darkBlack,
-                      size: 24,
-                    ),
-                  ),
-                  const SizedBox(width: 14),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const Text(
-                          'Dynamic Form Experience',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        const SizedBox(height: 4),
-                        Text(
-                          'Upload a JSON template to render the form instantly',
-                          style: TextStyle(
-                            color: Colors.white.withOpacity(0.78),
-                            fontSize: 13,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ),
+            // Container(
+            //   margin: const EdgeInsets.fromLTRB(16, 8, 16, 12),
+            //   padding: const EdgeInsets.all(18),
+            //   decoration: BoxDecoration(
+            //     color: darkBlack,
+            //     borderRadius: BorderRadius.circular(20),
+            //   ),
+            //   child: Row(
+            //     children: [
+            //       Container(
+            //         padding: const EdgeInsets.all(12),
+            //         decoration: const BoxDecoration(
+            //           color: primaryYellow,
+            //           shape: BoxShape.circle,
+            //         ),
+            //         child: const Icon(
+            //           Icons.person_outline,
+            //           color: darkBlack,
+            //           size: 24,
+            //         ),
+            //       ),
+            //       const SizedBox(width: 14),
+            //       Expanded(
+            //         child: Column(
+            //           crossAxisAlignment: CrossAxisAlignment.start,
+            //           children: [
+            //             const Text(
+            //               'Dynamic Form Experience',
+            //               style: TextStyle(
+            //                 color: Colors.white,
+            //                 fontSize: 18,
+            //                 fontWeight: FontWeight.bold,
+            //               ),
+            //             ),
+            //             const SizedBox(height: 4),
+            //             Text(
+            //               'Upload a JSON template to render the form instantly',
+            //               style: TextStyle(
+            //                 color: Colors.white.withOpacity(0.78),
+            //                 fontSize: 13,
+            //               ),
+            //             ),
+            //           ],
+            //         ),
+            //       ),
+            //     ],
+            //   ),
+            // ),
             Padding(
               padding: const EdgeInsets.fromLTRB(16, 0, 16, 12),
               child: SizedBox(
@@ -218,12 +218,37 @@ Map<String, dynamic> _defaultWorkshopTemplate() {
     ],
     'event_fields': [
       {
+        'key': 'workshop_name',
+        'section_key': 'workshop_details',
+        'label': {'en': 'Workshop Name'},
+        'type': 'text',
+        'required': true,
+        'order': 1,
+      },
+      {
+        'key': 'description',
+        'section_key': 'workshop_details',
+        'label': {'en': 'Workshop Description'},
+        'type': 'textarea',
+        'required': true,
+        'order': 2,
+      },
+      {
         'key': 'duration_hours',
         'section_key': 'workshop_details',
         'label': {'en': 'Duration'},
         'type': 'duration',
+        'default': '2 hours',
         'required': true,
-        'order': 1,
+        'order': 3,
+      },
+      {
+        'key': 'workshop_date',
+        'section_key': 'workshop_details',
+        'label': {'en': 'Workshop Date'},
+        'type': 'date',
+        'required': true,
+        'order': 4,
       },
       {
         'key': 'max_participants',
@@ -232,28 +257,74 @@ Map<String, dynamic> _defaultWorkshopTemplate() {
         'type': 'number',
         'required': false,
         'validation': {'min': 1, 'max': 500},
-        'order': 2,
+        'order': 5,
+      },
+      {
+        'key': 'skill_level',
+        'section_key': 'workshop_details',
+        'label': {'en': 'Skill Level'},
+        'type': 'select',
+        'required': false,
+        'options': [
+          {
+            'value': 'beginner',
+            'label': {'en': 'Beginner'},
+          },
+          {
+            'value': 'intermediate',
+            'label': {'en': 'Intermediate'},
+          },
+          {
+            'value': 'advanced',
+            'label': {'en': 'Advanced'},
+          },
+        ],
+        'order': 6,
+      },
+      {
+        'key': 'topics_covered',
+        'section_key': 'workshop_details',
+        'label': {'en': 'Topics Covered'},
+        'type': 'tags',
+        'required': false,
+        'order': 7,
       },
       {
         'key': 'certificate_provided',
         'section_key': 'workshop_details',
-        'label': {'en': 'Certificate provided'},
+        'label': {'en': 'Certificate Provided'},
         'type': 'boolean',
         'default': false,
-        'order': 3,
+        'order': 8,
       },
       {
         'key': 'certificate_issuer',
         'section_key': 'workshop_details',
-        'label': {'en': 'Issuing body'},
+        'label': {'en': 'Certificate Issuer'},
         'type': 'text',
-        'required': true,
+        'required': false,
         'visible_if': {
           'field': 'certificate_provided',
           'op': 'equals',
           'value': true,
         },
-        'order': 4,
+        'order': 9,
+      },
+      {
+        'key': 'instructor_name',
+        'section_key': 'workshop_details',
+        'label': {'en': 'Instructor Name'},
+        'type': 'text',
+        'required': true,
+        'order': 10,
+      },
+      {
+        'key': 'instructor_email',
+        'section_key': 'workshop_details',
+        'label': {'en': 'Instructor Email'},
+        'type': 'email',
+        'required': true,
+        'order': 11,
       },
     ],
     'member_intake_fields': [],

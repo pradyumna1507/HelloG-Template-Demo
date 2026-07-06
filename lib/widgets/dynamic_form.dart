@@ -77,19 +77,25 @@ class _DynamicFormState extends State<DynamicForm> {
     }
 
     final sourceValue = formValues[field.visibleIf!.field];
+    final targetValue = field.visibleIf!.value;
+
+    debugPrint(
+      'Field ${field.key}: checking visibility - sourceValue=$sourceValue, targetValue=$targetValue, op=${field.visibleIf!.op}',
+    );
+
     switch (field.visibleIf!.op) {
       case 'equals':
-        return sourceValue == field.visibleIf!.value;
+        return sourceValue == targetValue;
       case 'not_equals':
-        return sourceValue != field.visibleIf!.value;
+        return sourceValue != targetValue;
       case 'in':
-        if (field.visibleIf!.value is List) {
-          return (field.visibleIf!.value as List).contains(sourceValue);
+        if (targetValue is List) {
+          return (targetValue as List).contains(sourceValue);
         }
         return false;
       case 'not_in':
-        if (field.visibleIf!.value is List) {
-          return !(field.visibleIf!.value as List).contains(sourceValue);
+        if (targetValue is List) {
+          return !(targetValue as List).contains(sourceValue);
         }
         return true;
       default:
@@ -105,7 +111,8 @@ class _DynamicFormState extends State<DynamicForm> {
       if (field.requiredField && !_hasValue(formValues[field.key])) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('${field.label['en'] ?? field.key} is required.'),
+            backgroundColor: Colors.orange,
+            content: Text('${field.label['en'] ?? field.key} is required'),
           ),
         );
         return;
