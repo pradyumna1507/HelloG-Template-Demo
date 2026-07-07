@@ -92,12 +92,28 @@ class ApiService {
           'order': 1,
         },
         {
+          'key': 'email',
+          'section_key': 'basic',
+          'label': {'en': 'Email Address'},
+          'type': 'email',
+          'required': true,
+          'order': 2,
+        },
+        {
+          'key': 'phone',
+          'section_key': 'basic',
+          'label': {'en': 'Phone Number'},
+          'type': 'phone',
+          'required': true,
+          'order': 3,
+        },
+        {
           'key': 'gender',
           'section_key': 'basic',
           'label': {'en': 'Gender'},
           'type': 'radio',
           'required': true,
-          'order': 2,
+          'order': 4,
           'options': [
             {
               'value': 'male',
@@ -107,7 +123,45 @@ class ApiService {
               'value': 'female',
               'label': {'en': 'Female'},
             },
+            {
+              'value': 'other',
+              'label': {'en': 'Other'},
+            },
           ],
+        },
+        {
+          'key': 'department',
+          'section_key': 'basic',
+          'label': {'en': 'Department'},
+          'type': 'select',
+          'required': true,
+          'order': 5,
+          'options': [
+            {
+              'value': 'engineering',
+              'label': {'en': 'Engineering'},
+            },
+            {
+              'value': 'sales',
+              'label': {'en': 'Sales'},
+            },
+            {
+              'value': 'marketing',
+              'label': {'en': 'Marketing'},
+            },
+            {
+              'value': 'hr',
+              'label': {'en': 'HR'},
+            },
+          ],
+        },
+        {
+          'key': 'start_date',
+          'section_key': 'basic',
+          'label': {'en': 'Expected Start Date'},
+          'type': 'date',
+          'required': true,
+          'order': 6,
         },
         {
           'key': 'skills',
@@ -115,7 +169,7 @@ class ApiService {
           'label': {'en': 'Skills'},
           'type': 'multiselect',
           'required': false,
-          'order': 3,
+          'order': 7,
           'options': [
             {
               'value': 'flutter',
@@ -129,15 +183,23 @@ class ApiService {
               'value': 'ios',
               'label': {'en': 'iOS'},
             },
+            {
+              'value': 'python',
+              'label': {'en': 'Python'},
+            },
+            {
+              'value': 'nodejs',
+              'label': {'en': 'Node.js'},
+            },
           ],
         },
         {
-          'key': 'employee',
+          'key': 'is_employee',
           'section_key': 'basic',
-          'label': {'en': 'Are you Employee?'},
+          'label': {'en': 'Are you an existing employee?'},
           'type': 'boolean',
           'default': false,
-          'order': 4,
+          'order': 8,
         },
       ],
       'member_intake_fields': [],

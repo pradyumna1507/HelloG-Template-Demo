@@ -102,35 +102,35 @@ class HomeScreen extends StatelessWidget {
               const Spacer(),
 
               // Admin Button
-              SizedBox(
-                width: double.infinity,
-                height: 60,
-                child: ElevatedButton.icon(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: primaryYellow,
-                    foregroundColor: darkBlack,
-                    elevation: 0,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(18),
-                    ),
-                  ),
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (_) => const AdminFormBuilder(),
-                      ),
-                    );
-                  },
-                  icon: const Icon(Icons.dashboard_customize),
-                  label: const Text(
-                    'Admin Screen',
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                  ),
-                ),
-              ),
+              // SizedBox(
+              //   width: double.infinity,
+              //   height: 60,
+              //   child: ElevatedButton.icon(
+              //     style: ElevatedButton.styleFrom(
+              //       backgroundColor: primaryYellow,
+              //       foregroundColor: darkBlack,
+              //       elevation: 0,
+              //       shape: RoundedRectangleBorder(
+              //         borderRadius: BorderRadius.circular(18),
+              //       ),
+              //     ),
+              //     onPressed: () {
+              //       Navigator.push(
+              //         context,
+              //         MaterialPageRoute(
+              //           builder: (_) => const AdminFormBuilder(),
+              //         ),
+              //       );
+              //     },
+              //     icon: const Icon(Icons.dashboard_customize),
+              //     label: const Text(
+              //       'Admin Screen',
+              //       style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              //     ),
+              //   ),
+              // ),
 
-              const SizedBox(height: 20),
+              // const SizedBox(height: 20),
 
               // User Button
               SizedBox(

@@ -4,14 +4,21 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:demo_template_hello_g/screen/user_dynamic_form_screen.dart';
 
 void main() {
-  testWidgets('shows the default workshop template on launch', (
-    WidgetTester tester,
-  ) async {
-    await tester.pumpWidget(const MaterialApp(home: UserDynamicFormScreen()));
-    await tester.pumpAndSettle();
+  testWidgets(
+    'shows the default driving template and template switching tabs',
+    (WidgetTester tester) async {
+      await tester.pumpWidget(const MaterialApp(home: UserDynamicFormScreen()));
+      await tester.pumpAndSettle();
 
-    expect(find.text('Workshop'), findsOneWidget);
-    expect(find.text('Workshop details'), findsOneWidget);
-    expect(find.text('Upload .json Template'), findsOneWidget);
-  });
+      // Verify template selector tabs are visible
+      expect(find.text('Driving'), findsOneWidget);
+      expect(find.text('Dance'), findsOneWidget);
+      expect(find.text('Computer'), findsOneWidget);
+
+      // Verify default template loads (Driving)
+      expect(find.text('Vehicle Driving Academy'), findsOneWidget);
+      expect(find.text('Course Details'), findsOneWidget);
+      expect(find.text('Upload Custom .json Template'), findsOneWidget);
+    },
+  );
 }
